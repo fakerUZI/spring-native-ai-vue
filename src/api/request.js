@@ -2,8 +2,8 @@ import axios from 'axios'
 
 // 创建axios实例
 const request = axios.create({
-  baseURL: '/api/system',
-  timeout: 10000,
+  baseURL: '/api',
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -27,7 +27,10 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     const res = response.data
-    // 直接返回data
+    // 如果响应码不是200，根据业务处理
+    if (res.code !== 200 && res.code !== undefined) {
+      return Promise.reject(new Error(res.message || '请求失败'))
+    }
     return res
   },
   error => {
@@ -45,10 +48,13 @@ request.interceptors.response.use(
           window.location.href = '/login'
           break
         case 403:
-          console.error('用户已被禁用')
+          console.error('用户已被禁用或无权限')
           break
         case 404:
           console.error('资源不存在')
+          break
+        case 409:
+          console.error('数据冲突:', data?.message)
           break
         case 500:
           console.error('服务器错误')
