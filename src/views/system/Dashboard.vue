@@ -149,6 +149,13 @@
       <div class="content-wrapper">
         <router-view />
       </div>
+
+      <!-- 页脚备案信息 -->
+      <footer class="footer">
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+          陕ICP备2026011170号
+        </a>
+      </footer>
     </main>
     
     <!-- 退出登录第一次确认 -->
@@ -534,6 +541,7 @@ const confirmLogout = async () => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 
 .header {
@@ -634,6 +642,26 @@ const confirmLogout = async () => {
   overflow-y: auto;
   padding: 20px;
   background: var(--page-bg);
+  min-height: 0;
+}
+
+.footer {
+  padding: 12px 20px;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  background: var(--header-bg);
+  flex-shrink: 0;
+
+  a {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
 }
 
 .theme-settings {

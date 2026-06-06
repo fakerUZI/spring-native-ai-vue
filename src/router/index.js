@@ -60,6 +60,12 @@ const routes = [
   {
     path: '/',
     redirect: '/login'
+  },
+  // 404页面 - 捕获所有未匹配的路由
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/system/NotFound.vue')
   }
 ]
 
@@ -71,14 +77,15 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from) => {
   const token = localStorage.getItem('token')
-  
+
   if (to.meta.requiresAuth && !token) {
     return '/login'
   }
   if (to.path === '/login' && token) {
     return '/system'
   }
-  // 不返回任何内容，允许导航继续
+  // 允许导航继续
+  return true
 })
 
 export default router
